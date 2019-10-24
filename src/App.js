@@ -1,27 +1,47 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from 'react'
+import logo from './logo.svg'
+import './App.css'
 import Header from './Components/Header'
+import Player from './Components/Header'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+ class App extends Component {
+  state = {
+    players: [
+      {
+        name: 'Guil',
+        id: 1
+      },
+      {
+        name: 'Treasure',
+        id: 2
+      },
+      {
+        name: 'Ashley',
+        id: 3
+      },
+      {
+        name: 'James',
+        id: 4
+      }
+    ]
+  }
+
+  handleRemovePlayer =(id) =>{
+    this.setState(prevState => prevState.filter((player) => player.id !== id))
+  }
+
+  playersRenderer = () => {
+    return this.state.players.map((player, index) => {
+      return <Player key={player.id.toString()} playerName={player.name} id={player.id} handleRemovePlayer={this.handleRemovePlayer} ></Player>
+    })
+  }
+  render() {
+    return (
+      <div>
+        <Header title='scoreboard' totalPlayers={this.state.players.length}></Header>
+        {this.playersRenderer()}
+      </div>
+    )
+  }
 }
-
-export default App;
+export default App
