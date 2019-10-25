@@ -9,36 +9,49 @@ import Player from './Components/Header'
     players: [
       {
         name: 'Guil',
-        id: 1
+        id: 1,
+        score:0      
       },
       {
         name: 'Treasure',
-        id: 2
+        id: 2,
+        score:0
       },
       {
         name: 'Ashley',
-        id: 3
+        id: 3,
+        score:0
       },
       {
         name: 'James',
-        id: 4
+        id: 4,
+        score:0
       }
     ]
   }
 
-  handleRemovePlayer =(id) =>{
+  handleScoreChange =(operation,index) => {
+    this.setState(prevState =>{
+      const updatedPlayers = [...prevState.players]
+      const updatedPlayer = [...updatedPlayers[index]]
+      updatedPlayer.score += operation
+      updatedPlayers[index]=updatedPlayer
+      return{players:updatedPlayers}
+    })
+    }
+  handleRemovePlayer =(id) =>{ 
     this.setState(prevState => prevState.filter((player) => player.id !== id))
   }
 
   playersRenderer = () => {
     return this.state.players.map((player, index) => {
-      return <Player key={player.id.toString()} playerName={player.name} id={player.id} handleRemovePlayer={this.handleRemovePlayer} ></Player>
+      return <Player key={player.id.toString()} playerName={player.name} id={player.id} handleRemovePlayer={this.handleRemovePlayer} score={player.score} handleScoreChange={this.handleScoreChange} index={index} ></Player>
     })
   }
   render() {
     return (
       <div>
-        <Header title='scoreboard' totalPlayers={this.state.players.length}></Header>
+        <Header title='scoreboard' totalPlayers={this.state.players.length} players={this.state.players}></Header>
         {this.playersRenderer()}
       </div>
     )
