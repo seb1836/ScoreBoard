@@ -2,57 +2,89 @@ import React, { Component } from 'react'
 import logo from './logo.svg'
 import './App.css'
 import Header from './Components/Header'
-import Player from './Components/Header'
+import Player from './Components/Player'
+import AddPlayerForm from './Components/AddPlayerForm'
 
- class App extends Component {
+class App extends Component {
   state = {
     players: [
       {
         name: 'Guil',
         id: 1,
-        score:0      
+        score: 0
       },
       {
         name: 'Treasure',
         id: 2,
-        score:0
+        score: 0
       },
       {
         name: 'Ashley',
         id: 3,
-        score:0
+        score: 0
       },
       {
         name: 'James',
         id: 4,
-        score:0
+        score: 0
       }
     ]
   }
 
-  handleScoreChange =(operation,index) => {
-    this.setState(prevState =>{
+  handleScoreChange = (operation, index) => {
+    this.setState(prevState => {
       const updatedPlayers = [...prevState.players]
-      const updatedPlayer = [...updatedPlayers[index]]
+      const updatedPlayer = { ...updatedPlayers[index] }
       updatedPlayer.score += operation
-      updatedPlayers[index]=updatedPlayer
-      return{players:updatedPlayers}
+      updatedPlayers[index] = updatedPlayer
+      console.log('into handle score', updatedPlayers)
+      return { players: updatedPlayers }
     })
-    }
-  handleRemovePlayer =(id) =>{ 
-    this.setState(prevState => prevState.filter((player) => player.id !== id))
+  }
+  handleRemovePlayer = id => {
+    this.setState(prevState => {
+      return {
+        players: prevState.players.filter(p => 
+           p.id !==id
+      )
+      }
+    })
   }
 
   playersRenderer = () => {
     return this.state.players.map((player, index) => {
-      return <Player key={player.id.toString()} playerName={player.name} id={player.id} handleRemovePlayer={this.handleRemovePlayer} score={player.score} handleScoreChange={this.handleScoreChange} index={index} ></Player>
+      console.log(player.name)
+      return (
+        <Player
+          key={player.id.toString()}
+          playerName={player.name}
+          id={player.id}
+          handleRemovePlayer={this.handleRemovePlayer}
+          score={player.score}
+          handleScoreChange={this.handleScoreChange}
+          index={index}
+        ></Player>
+      )
     })
   }
+
+   handleUpdatePlayersState = (submittedName) =>{
+     this.setState(prevState =>{
+       const updatedPlayers = [...prevState.players]
+       console.log(updatedPlayers,"dfsdf")
+        updatedPlayers.push({name:submittedName,id:this.state.players.length+1,score:0})
+       console.log(updatedPlayers,"addp")
+       alert("pass")
+       return {players:updatedPlayers}
+     }
+       )
+   }
   render() {
     return (
       <div>
-        <Header title='scoreboard' totalPlayers={this.state.players.length} players={this.state.players}></Header>
+        <Header title='scoreboard' players={this.state.players}></Header>
         {this.playersRenderer()}
+        <AddPlayerForm addPlayer={this.handleUpdatePlayersState} />
       </div>
     )
   }
