@@ -1,12 +1,16 @@
 import React from 'react'
 import '../App.css';
+import Stats from "./Stats"
 
-
-const Header = () => {
+const Header = (props) => {
+    console.log(props.players.length)
+    
+    console.log("props de header >",props,Array.isArray(props.players),typeof props.players)
 return (
 <header>
-    <h1>Scoreboard</h1>
-    <span className="stats">Player : 1</span>
+    <Stats players={props.players}></Stats>
+    <h1>{props.title}</h1>
+    
 
 </header>
 
