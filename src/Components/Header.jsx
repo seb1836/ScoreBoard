@@ -1,6 +1,7 @@
 import React from 'react'
 import '../App.css';
 import Stats from "./Stats"
+import StopWatch from "./StopWatch"
 
 const Header = (props) => {
     console.log(props.players.length)
@@ -10,7 +11,7 @@ return (
 <header>
     <Stats players={props.players}></Stats>
     <h1>{props.title}</h1>
-    
+    <StopWatch/>
 
 </header>
 

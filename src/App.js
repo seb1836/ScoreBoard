@@ -74,7 +74,7 @@ class App extends Component {
        console.log(updatedPlayers,"dfsdf")
         updatedPlayers.push({name:submittedName,id:this.state.players.length+1,score:0})
        console.log(updatedPlayers,"addp")
-       alert("pass")
+       
        return {players:updatedPlayers}
      }
        )
