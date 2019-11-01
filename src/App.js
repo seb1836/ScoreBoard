@@ -51,7 +51,13 @@ class App extends Component {
     })
   }
 
+handleHighestScoreAndTie = () => {
+  
+}
+
   playersRenderer = () => {
+    console.log(this.checkIfOnePointHasBeenScored())
+    if(this.checkIfOnePointHasBeenScored()===false){
     return this.state.players.map((player, index) => {
       console.log(player.name)
       return (
@@ -66,8 +72,10 @@ class App extends Component {
         ></Player>
       )
     })
+  }else if(this.checkIfOnePointHasBeenScored()){
+    return 
   }
-
+  }
    handleUpdatePlayersState = (submittedName) =>{
      this.setState(prevState =>{
        const updatedPlayers = [...prevState.players]
@@ -79,6 +87,12 @@ class App extends Component {
      }
        )
    }
+
+   checkIfOnePointHasBeenScored = () =>{
+     return this.state.players.some( (player,index) => {
+       return player.score >0
+     }
+     )}
   render() {
     return (
       <div>
