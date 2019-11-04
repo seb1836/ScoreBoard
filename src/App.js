@@ -4,7 +4,8 @@ import './App.css'
 import Header from './Components/Header'
 import Player from './Components/Player'
 import AddPlayerForm from './Components/AddPlayerForm'
-
+const arrayIndexSup = [];
+let sup = 0;
 class App extends Component {
   state = {
     players: [
@@ -30,7 +31,31 @@ class App extends Component {
       }
     ]
   }
+   checkIfTieBefore = () => {
+    arrayIndexSup.forEach((currentIndex, index) => {
+      if (
+        this.state.players[currentIndex] > this.state.players[currentIndex + 1] &&
+        arrayIndexSup.length >= 2
+      ) {
+        console.log(arrayIndexSup, currentIndex);
+        arrayIndexSup.splice(index + 1);
+        console.log(arrayIndexSup);
+      }
+    });
+  };
 
+   handleHighestScoreAndTie = () => {
+    this.state.players.some((currentScore, index) => {
+      if (sup < currentScore) {
+        sup = currentScore;
+        arrayIndexSup.splice(0, arrayIndexSup.length - 1);
+        arrayIndexSup[0] = index;
+       this.checkIfTieBefore();
+      } else if (sup === currentScore) {
+        arrayIndexSup.push(index);
+      }
+    })
+  }
   handleScoreChange = (operation, index) => {
     this.setState(prevState => {
       const updatedPlayers = [...prevState.players]
@@ -51,7 +76,13 @@ class App extends Component {
     })
   }
 
+handleHighestScoreAndTie = () => {
+  
+}
+
   playersRenderer = () => {
+    console.log(this.checkIfOnePointHasBeenScored())
+    if(this.checkIfOnePointHasBeenScored()===false){
     return this.state.players.map((player, index) => {
       console.log(player.name)
       return (
@@ -66,8 +97,10 @@ class App extends Component {
         ></Player>
       )
     })
+  }else if(this.checkIfOnePointHasBeenScored()){
+    return 
   }
-
+  }
    handleUpdatePlayersState = (submittedName) =>{
      this.setState(prevState =>{
        const updatedPlayers = [...prevState.players]
@@ -79,6 +112,12 @@ class App extends Component {
      }
        )
    }
+
+   checkIfOnePointHasBeenScored = () =>{
+     return this.state.players.some( (player,index) => {
+       return player.score >0
+     }
+     )}
   render() {
     return (
       <div>
