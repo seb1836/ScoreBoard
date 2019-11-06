@@ -4,7 +4,7 @@ import './App.css'
 import Header from './Components/Header'
 import Player from './Components/Player'
 import AddPlayerForm from './Components/AddPlayerForm'
-const arrayIndexSup = [];
+let arrayIndexSup = [];
 let sup = 0;
 class App extends Component {
   state = {
@@ -45,18 +45,27 @@ class App extends Component {
   };
 
    handleHighestScoreAndTie = () => {
-    this.state.players.some((currentScore, index) => {
-      if (sup < currentScore) {
-        sup = currentScore;
+     console.log(arrayIndexSup,"arrayofsupbefore",sup)
+    this.state.players.forEach((players, index) => {
+      if (sup < players.score) {
+        sup = players.score;
         arrayIndexSup.splice(0, arrayIndexSup.length - 1);
         arrayIndexSup[0] = index;
+        console.log(arrayIndexSup,"arrayofsup INTO")
        this.checkIfTieBefore();
-      } else if (sup === currentScore) {
+       console.log(sup)
+      } else if (sup === players.score && players.score!==0) {
+        console.log("sup&pscore",sup,players.score)
+        sup = players.score;
         arrayIndexSup.push(index);
+        console.log(arrayIndexSup,"arrayofsup INTO equal")
       }
     })
   }
-  handleScoreChange = (operation, index) => {
+  handleScoreChange = (operation, index,isHighscore) => {
+    if (isHighscore=== true){
+      sup-=1
+    }
     this.setState(prevState => {
       const updatedPlayers = [...prevState.players]
       const updatedPlayer = { ...updatedPlayers[index] }
@@ -69,17 +78,47 @@ class App extends Component {
   handleRemovePlayer = id => {
     this.setState(prevState => {
       return {
-        players: prevState.players.filter(p => 
-           p.id !==id
+        players: prevState.players.filter(p =>{ 
+          arrayIndexSup=arrayIndexSup.filter((indexSup)=>{
+            return indexSup !== id-1
+          })
+         return p.id !==id
+          }
       )
       }
     })
+    arrayIndexSup=[]
+    sup=0
+    
   }
 
-handleHighestScoreAndTie = () => {
-  
+playersRendererWithHighScoreAndTie = () => {
+  return this.state.players.map((player, index) => {
+    if(arrayIndexSup.includes(index)){
+      return <Player
+      key={player.id.toString()}
+      playerName={player.name}
+      id={player.id}
+      handleRemovePlayer={this.handleRemovePlayer}
+      score={player.score}
+      handleScoreChange={this.handleScoreChange}
+      index={index}
+      highScore="is-high-score"
+    ></Player>
+    }else{
+      return <Player
+      key={player.id.toString()}
+      playerName={player.name}
+      id={player.id}
+      handleRemovePlayer={this.handleRemovePlayer}
+      score={player.score}
+      handleScoreChange={this.handleScoreChange}
+      index={index}
+      highScore="is-not-high-score"
+      ></Player>
+    }
+})
 }
-
   playersRenderer = () => {
     console.log(this.checkIfOnePointHasBeenScored())
     if(this.checkIfOnePointHasBeenScored()===false){
@@ -98,7 +137,8 @@ handleHighestScoreAndTie = () => {
       )
     })
   }else if(this.checkIfOnePointHasBeenScored()){
-    return 
+    this.handleHighestScoreAndTie()
+    return this.playersRendererWithHighScoreAndTie()
   }
   }
    handleUpdatePlayersState = (submittedName) =>{

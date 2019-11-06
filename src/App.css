@@ -20,3 +20,20 @@
 .App-link {
   color: #09d3ac;
 }
+
+svg{
+  width:28px ;
+  height:19px;
+  margin-right: 5px;
+  fill:#f0f0f0
+}
+
+.is-high-score {
+  fill: #ffc657;
+  animation: grow 0,35s ease-in-out;
+  transform-origin:50% 50% ;
+}
+
+@keyframes grow {
+  50% {transorm:scale(1.4) rotate(-3deg);}
+}
