@@ -50,6 +50,7 @@ class App extends Component {
       if (sup < players.score) {
         sup = players.score;
         arrayIndexSup.splice(0, arrayIndexSup.length - 1);
+        
         arrayIndexSup[0] = index;
         console.log(arrayIndexSup,"arrayofsup INTO")
        this.checkIfTieBefore();
