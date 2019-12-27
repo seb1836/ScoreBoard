@@ -2,7 +2,7 @@ import * as PlayerActionTypes from '../ActionTypes/player'
 
 
 const initialState = [{
-    name: 'Guil',
+    name: 'Guile',
     id: 1,
     score: 0
   },
