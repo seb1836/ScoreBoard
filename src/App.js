@@ -6,8 +6,9 @@ import './App.css'
 import Header from './Components/Header'
 import Player from './Components/Player'
 import AddPlayerForm from './Components/AddPlayerForm'
-let arrayIndexSup = []
-let sup = 0
+
+let biggestScore
+
 class App extends Component {
   //   state = {
   //     players: [
@@ -33,34 +34,27 @@ class App extends Component {
   //       }
   //     ]
   //   }
-  checkIfTieBefore = () => {
-    arrayIndexSup.forEach((currentIndex, index) => {
-      if (this.props.players[currentIndex] > this.props.players[currentIndex + 1] && arrayIndexSup.length >= 2) {
-        console.log(arrayIndexSup, currentIndex)
-        arrayIndexSup.splice(index + 1)
-        console.log(arrayIndexSup)
-      }
-    })
-  }
+  // checkIfTieBefore = () => {
+  //   arrayIndexSup.forEach((currentIndex, index) => {
+  //     if (this.props.players[currentIndex] > this.props.players[currentIndex + 1] && arrayIndexSup.length >= 2) {
+  //       console.log(arrayIndexSup, currentIndex)
+  //       arrayIndexSup.splice(index + 1)
+  //       console.log(arrayIndexSup)
+  //     }
+  //   })
+  // }
 
   handleHighestScoreAndTie = () => {
-    console.log(arrayIndexSup, 'arrayofsupbefore', sup)
-    this.props.players.forEach((players, index) => {
-      if (sup < players.score) {
-        sup = players.score
-        arrayIndexSup.splice(0, arrayIndexSup.length - 1)
+  
 
-        arrayIndexSup[0] = index
-        console.log(arrayIndexSup, 'arrayofsup INTO')
-        this.checkIfTieBefore()
-        console.log(sup)
-      } else if (sup === players.score && players.score !== 0) {
-        console.log('sup&pscore', sup, players.score)
-        sup = players.score
-        arrayIndexSup.push(index)
-        console.log(arrayIndexSup, 'arrayofsup INTO equal')
-      }
-    })
+    biggestScore = Math.max(
+      ...this.props.players.map(players => {
+        return players.score
+      })
+    )
+
+    console.log(biggestScore, 'MAAAATH')
+   
   }
   // handleScoreChange = (operation, index,isHighscore) => {
   //   if (isHighscore=== true){
@@ -115,7 +109,7 @@ class App extends Component {
 
     const playersRendererWithHighScoreAndTie = () => {
       return this.props.players.map((player, index) => {
-        if (arrayIndexSup.includes(index)) {
+        if (player.score === biggestScore) {
           return (
             <Player
               key={player.id.toString()}
