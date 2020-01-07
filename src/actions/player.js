@@ -15,7 +15,7 @@ export const removePlayer = index => {
     }
 }
 
-export const UpdatePlayerScore = (index,score) => {
+export const UpdatePlayerScore = (score,index) => {
     return{
         type:PlayerActionTypes.UPDATE_PLAYER_SCORE,
         index,
