@@ -47,10 +47,7 @@ class App extends Component {
   handleHighestScoreAndTie = () => {
   
 
-    biggestScore = Math.max(
-      ...this.props.players.map(players => {
-        return players.score
-      })
+    biggestScore = Math.max(...this.props.players.map(players => players.score)
     )
 
     console.log(biggestScore, 'MAAAATH')
