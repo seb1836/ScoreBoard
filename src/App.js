@@ -6,6 +6,7 @@ import './App.css'
 import Header from './Components/Header'
 import Player from './Components/Player'
 import AddPlayerForm from './Components/AddPlayerForm'
+import PlayerDetails from './Components/PlayerDetails'
 
 let biggestScore
 
@@ -45,13 +46,9 @@ class App extends Component {
   // }
 
   handleHighestScoreAndTie = () => {
-  
-
-    biggestScore = Math.max(...this.props.players.map(players => players.score)
-    )
+    biggestScore = Math.max(...this.props.players.map(players => players.score))
 
     console.log(biggestScore, 'MAAAATH')
-   
   }
   // handleScoreChange = (operation, index,isHighscore) => {
   //   if (isHighscore=== true){
@@ -83,18 +80,19 @@ class App extends Component {
 
   // }
 
-  handleUpdatePlayersState = submittedName => {
-    this.setState(prevState => {
-      const updatedPlayers = [...prevState.players]
-      console.log(updatedPlayers, 'dfsdf')
-      updatedPlayers.push({ name: submittedName, id: this.state.players.length + 1, score: 0 })
-      console.log(updatedPlayers, 'addp')
+  // handleUpdatePlayersState = submittedName => {
+  //   this.setState(prevState => {
+  //     const updatedPlayers = [...prevState.players]
+  //     console.log(updatedPlayers, 'dfsdf')
+  //     updatedPlayers.push({ name: submittedName, id: this.state.players.length + 1, score: 0 })
+  //     console.log(updatedPlayers, 'addp')
 
-      return { players: updatedPlayers }
-    })
-  }
+  //     return { players: updatedPlayers }
+  //   })
+  // }
 
   checkIfOnePointHasBeenScored = () => {
+    console.log(this.props.players, 'check')
     return this.props.players.some((player, index) => {
       return player.score > 0
     })
@@ -103,6 +101,7 @@ class App extends Component {
     const addPlayer = bindActionCreators(PlayerActionCreators.addPlayer, this.props.dispatch)
     const removePlayer = bindActionCreators(PlayerActionCreators.removePlayer, this.props.dispatch)
     const updatePlayerScore = bindActionCreators(PlayerActionCreators.UpdatePlayerScore, this.props.dispatch)
+    const updatePlayerDetails = bindActionCreators(PlayerActionCreators.UpdatePlayerDetails, this.props.dispatch)
 
     const playersRendererWithHighScoreAndTie = () => {
       return this.props.players.map((player, index) => {
@@ -117,6 +116,7 @@ class App extends Component {
               score={player.score}
               // handleScoreChange={this.handleScoreChange}
               updatePlayerScore={updatePlayerScore}
+              updatePlayerDetails={updatePlayerDetails}
               index={index}
               highScore='is-high-score'
             ></Player>
@@ -132,6 +132,7 @@ class App extends Component {
               score={player.score}
               //  handleScoreChange={this.handleScoreChange}
               updatePlayerScore={updatePlayerScore}
+              updatePlayerDetails={updatePlayerDetails}
               index={index}
               highScore='is-not-high-score'
             ></Player>
@@ -152,6 +153,7 @@ class App extends Component {
               // handleRemovePlayer={this.handleRemovePlayer}
               removePlayer={removePlayer}
               score={player.score}
+              updatePlayerDetails={updatePlayerDetails}
               // handleScoreChange={this.handleScoreChange}
               updatePlayerScore={updatePlayerScore}
               index={index}
@@ -163,18 +165,34 @@ class App extends Component {
         return playersRendererWithHighScoreAndTie()
       }
     }
+    const playerDetailsRenderer = () => {
+      if (this.props.index !== -1) {
+        return (
+          <PlayerDetails
+            selectedPlayerIndex={this.props.index}
+            playerName={this.props.players[this.props.index].name}
+            playerScore={this.props.players[this.props.index].score}
+            dateOfCreation={this.props.players[this.props.index].created}
+            dateOfUpdate={this.props.players[this.props.index].updated}
+          />
+        )
+      } else return <PlayerDetails selectedPlayerIndex={this.props.index} />
+    }
+
     return (
       <div>
-        {console.log(this.props.players, 'red')}
+        {console.log(this.props.players, 'red', this.props.index)}
         <Header title='scoreboard' players={this.props.players}></Header>
         {playersRenderer()}
         <AddPlayerForm addPlayer={addPlayer} />
+        {playerDetailsRenderer()}
       </div>
     )
   }
 }
 
 const mapStateToProps = state => ({
-  players: state
+  players: state.players,
+  index: state.selectedPlayerIndex
 })
 export default connect(mapStateToProps)(App)
