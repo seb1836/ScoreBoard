@@ -1,31 +1,30 @@
-import React, { PropTypes } from 'react';
+import React, { PropTypes } from 'react'
 
-const PlayerDetail = ({  }) => {
-  if( ){
+
+const PlayerDetails = ({ selectedPlayerIndex, playerName,playerScore,dateOfCreation,dateOfUpdate }) => {
+  if (selectedPlayerIndex !== -1) {
     return (
       <div>
-        <h3>{ }</h3>
+        <h3>{playerName}</h3>
         <ul>
           <li>
-            <span>Score: </span> 
-            { }
+            <span>Score:{playerScore} </span>
+            {}
           </li>
           <li>
-            <span>Created: </span> 
-            { }
+            <span>Created:{dateOfCreation} </span>
+            {}
           </li>
           <li>
-            <span>Updated: </span> 
-            { }
-          </li>        
+            <span>Updated:{dateOfUpdate} </span>
+            {}
+          </li>
         </ul>
       </div>
-    );
+    )
+  } else {
+    return <p>Click on a player to see more details</p>
   }
-  else {
-    return (<p>Click on a player to see more details</p>);
-  }
-};
+}
 
-
-export default PlayerDetails;
+export default PlayerDetails
