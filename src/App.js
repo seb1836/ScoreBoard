@@ -8,8 +8,6 @@ import Player from './Components/Player'
 import AddPlayerForm from './Components/AddPlayerForm'
 import PlayerDetails from './Components/PlayerDetails'
 
-let biggestScore
-
 class App extends Component {
   //   state = {
   //     players: [
@@ -46,9 +44,9 @@ class App extends Component {
   // }
 
   handleHighestScoreAndTie = () => {
-    biggestScore = Math.max(...this.props.players.map(players => players.score))
-
-    console.log(biggestScore, 'MAAAATH')
+   let biggestscore = Math.max(...this.props.players.map(players => players.score))
+return biggestscore
+   
   }
   // handleScoreChange = (operation, index,isHighscore) => {
   //   if (isHighscore=== true){
@@ -103,9 +101,10 @@ class App extends Component {
     const updatePlayerScore = bindActionCreators(PlayerActionCreators.UpdatePlayerScore, this.props.dispatch)
     const updatePlayerDetails = bindActionCreators(PlayerActionCreators.UpdatePlayerDetails, this.props.dispatch)
 
-    const playersRendererWithHighScoreAndTie = () => {
+    const playersRendererWithHighScoreAndTie = score => {
+      console.log(score, 'hiiighscore')
       return this.props.players.map((player, index) => {
-        if (player.score === biggestScore) {
+        if (player.score === score) {
           return (
             <Player
               key={player.id.toString()}
@@ -142,6 +141,7 @@ class App extends Component {
     }
     const playersRenderer = () => {
       console.log(this.checkIfOnePointHasBeenScored())
+      
       if (this.checkIfOnePointHasBeenScored() === false) {
         return this.props.players.map((player, index) => {
           console.log(player.name)
@@ -161,8 +161,8 @@ class App extends Component {
           )
         })
       } else if (this.checkIfOnePointHasBeenScored()) {
-        this.handleHighestScoreAndTie()
-        return playersRendererWithHighScoreAndTie()
+        
+        return playersRendererWithHighScoreAndTie(this.handleHighestScoreAndTie())
       }
     }
     const playerDetailsRenderer = () => {
