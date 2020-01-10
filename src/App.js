@@ -173,7 +173,8 @@ class App extends Component {
             dateOfUpdate={this.props.players[this.props.index].updated}
           />
         )
-      }  return <PlayerDetails selectedPlayerIndex={this.props.index} />
+      }
+      return <PlayerDetails selectedPlayerIndex={this.props.index} />
     }
 
     return (
