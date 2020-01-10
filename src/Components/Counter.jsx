@@ -15,9 +15,9 @@ const Counter = ({ updatePlayerScore, score, index, highScore }) => {
   const decrementAction = () => {
     if (highScore === 'is-high-score') {
       return updatePlayerScore(-1, index, true)
-    } else {
+    } 
       return updatePlayerScore(-1, index, false)
-    }
+    
   }
 
   return (

@@ -44,9 +44,8 @@ class App extends Component {
   // }
 
   handleHighestScoreAndTie = () => {
-   let biggestscore = Math.max(...this.props.players.map(players => players.score))
-return biggestscore
-   
+    let biggestscore = Math.max(...this.props.players.map(players => players.score))
+    return biggestscore
   }
   // handleScoreChange = (operation, index,isHighscore) => {
   //   if (isHighscore=== true){
@@ -120,28 +119,27 @@ return biggestscore
               highScore='is-high-score'
             ></Player>
           )
-        } else {
-          return (
-            <Player
-              key={player.id.toString()}
-              playerName={player.name}
-              id={player.id}
-              // handleRemovePlayer={this.handleRemovePlayer}
-              removePlayer={removePlayer}
-              score={player.score}
-              //  handleScoreChange={this.handleScoreChange}
-              updatePlayerScore={updatePlayerScore}
-              updatePlayerDetails={updatePlayerDetails}
-              index={index}
-              highScore='is-not-high-score'
-            ></Player>
-          )
         }
+        return (
+          <Player
+            key={player.id.toString()}
+            playerName={player.name}
+            id={player.id}
+            // handleRemovePlayer={this.handleRemovePlayer}
+            removePlayer={removePlayer}
+            score={player.score}
+            //  handleScoreChange={this.handleScoreChange}
+            updatePlayerScore={updatePlayerScore}
+            updatePlayerDetails={updatePlayerDetails}
+            index={index}
+            highScore='is-not-high-score'
+          ></Player>
+        )
       })
     }
     const playersRenderer = () => {
       console.log(this.checkIfOnePointHasBeenScored())
-      
+
       if (this.checkIfOnePointHasBeenScored() === false) {
         return this.props.players.map((player, index) => {
           console.log(player.name)
@@ -161,7 +159,6 @@ return biggestscore
           )
         })
       } else if (this.checkIfOnePointHasBeenScored()) {
-        
         return playersRendererWithHighScoreAndTie(this.handleHighestScoreAndTie())
       }
     }
@@ -176,7 +173,7 @@ return biggestscore
             dateOfUpdate={this.props.players[this.props.index].updated}
           />
         )
-      } else return <PlayerDetails selectedPlayerIndex={this.props.index} />
+      }  return <PlayerDetails selectedPlayerIndex={this.props.index} />
     }
 
     return (
