@@ -29,3 +29,5 @@ export const UpdatePlayerDetails = (index) => {
         index,
     }
 }
+
+//Attend une seconde, on me spam au boulot xd 

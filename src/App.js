@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import * as PlayerActionCreators from './actions/player'
+import { addPlayer, removePlayer, UpdatePlayerScore, UpdatePlayerDetails } from './actions/player'
 import './App.css'
 import Header from './Components/Header'
 import Player from './Components/Player'
@@ -95,10 +96,10 @@ class App extends Component {
     })
   }
   render() {
-    const addPlayer = bindActionCreators(PlayerActionCreators.addPlayer, this.props.dispatch)
-    const removePlayer = bindActionCreators(PlayerActionCreators.removePlayer, this.props.dispatch)
-    const updatePlayerScore = bindActionCreators(PlayerActionCreators.UpdatePlayerScore, this.props.dispatch)
-    const updatePlayerDetails = bindActionCreators(PlayerActionCreators.UpdatePlayerDetails, this.props.dispatch)
+    // const addPlayer = bindActionCreators(PlayerActionCreators.addPlayer, this.props.dispatch)
+    // const removePlayer = bindActionCreators(PlayerActionCreators.removePlayer, this.props.dispatch)
+    // const updatePlayerScore = bindActionCreators(PlayerActionCreators.UpdatePlayerScore, this.props.dispatch)
+    // const updatePlayerDetails = bindActionCreators(PlayerActionCreators.UpdatePlayerDetails, this.props.dispatch)
 
     const playersRendererWithHighScoreAndTie = score => {
       console.log(score, 'hiiighscore')
@@ -110,11 +111,11 @@ class App extends Component {
               playerName={player.name}
               id={player.id}
               // handleRemovePlayer={this.handleRemovePlayer}
-              removePlayer={removePlayer}
+              removePlayer={this.props.removePlayer}
               score={player.score}
               // handleScoreChange={this.handleScoreChange}
-              updatePlayerScore={updatePlayerScore}
-              updatePlayerDetails={updatePlayerDetails}
+              updatePlayerScore={this.props.UpdatePlayerScore}
+              updatePlayerDetails={this.props.UpdatePlayerDetails}
               index={index}
               highScore='is-high-score'
             ></Player>
@@ -126,11 +127,11 @@ class App extends Component {
             playerName={player.name}
             id={player.id}
             // handleRemovePlayer={this.handleRemovePlayer}
-            removePlayer={removePlayer}
+            removePlayer={this.props.removePlayer}
             score={player.score}
             //  handleScoreChange={this.handleScoreChange}
-            updatePlayerScore={updatePlayerScore}
-            updatePlayerDetails={updatePlayerDetails}
+            updatePlayerScore={this.props.UpdatePlayerScore}
+            updatePlayerDetails={this.props.UpdatePlayerDetails}
             index={index}
             highScore='is-not-high-score'
           ></Player>
@@ -149,11 +150,11 @@ class App extends Component {
               playerName={player.name}
               id={player.id}
               // handleRemovePlayer={this.handleRemovePlayer}
-              removePlayer={removePlayer}
+              removePlayer={this.props.removePlayer}
               score={player.score}
-              updatePlayerDetails={updatePlayerDetails}
+              updatePlayerDetails={this.props.UpdatePlayerDetails}
               // handleScoreChange={this.handleScoreChange}
-              updatePlayerScore={updatePlayerScore}
+              updatePlayerScore={this.props.UpdatePlayerScore}
               index={index}
             ></Player>
           )
@@ -177,12 +178,12 @@ class App extends Component {
       return <PlayerDetails selectedPlayerIndex={this.props.index} />
     }
 
+    console.log(this.props.players, 'red', this.props.index, this.props.addPlayer)
     return (
       <div>
-        {console.log(this.props.players, 'red', this.props.index)}
         <Header title='scoreboard' players={this.props.players}></Header>
         {playersRenderer()}
-        <AddPlayerForm addPlayer={addPlayer} />
+        <AddPlayerForm addPlayer={this.props.addPlayer} />
         {playerDetailsRenderer()}
       </div>
     )
@@ -193,4 +194,22 @@ const mapStateToProps = state => ({
   players: state.players,
   index: state.selectedPlayerIndex
 })
-export default connect(mapStateToProps)(App)
+
+const mapDispatchToProps = dispatch => {
+  return {
+    addPlayer: name => {
+      dispatch(addPlayer(name))
+    },
+    removePlayer: index => {
+      dispatch(removePlayer(index))
+    },
+    UpdatePlayerScore: (score, index) => {
+      dispatch(UpdatePlayerScore(score, index))
+    },
+    UpdatePlayerDetails: index => {
+      dispatch(UpdatePlayerDetails(index))
+    }
+  }
+}
+//export default connect(mapStateToProps,{addPlayer,removePlayer,UpdatePlayerDetails,UpdatePlayerScore})(App)
+export default connect(mapStateToProps, mapDispatchToProps)(App)

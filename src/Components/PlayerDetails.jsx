@@ -7,7 +7,10 @@ const PlayerDetails = ({ selectedPlayerIndex, playerName, playerScore, dateOfCre
     return playerDetailsFields.map((string, index) => {
       return (
         <li>
-    <span>{string}{propsArray[index]}</span>
+          <span>
+            {string}
+            {propsArray[index]}
+          </span>
         </li>
       )
     })
@@ -16,9 +19,7 @@ const PlayerDetails = ({ selectedPlayerIndex, playerName, playerScore, dateOfCre
     return (
       <div>
         <h3>{playerName}</h3>
-        <ul>
-          {detailsRenderer()}
-        </ul>
+        <ul>{detailsRenderer()}</ul>
       </div>
     )
   }
